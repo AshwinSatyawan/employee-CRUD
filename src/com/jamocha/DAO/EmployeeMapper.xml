@@ -1,0 +1,216 @@
+
+<!DOCTYPE mapper PUBLIC '-//mybatis.org//DTD Mapper 3.0//EN' 'http://mybatis.org/dtd/mybatis-3-mapper.dtd'>
+
+<mapper namespace='com.jamocha.DAO.EmployeeDAO'>
+	<select id='login' resultMap='loginres' parameterType='Login'
+		resultType="List">
+		select * from login where l_id=#{l_id} and
+		password=#{password}
+	</select>
+
+	<resultMap type='Login' id='loginres'>
+
+		<result property='l_id' column='l_id'
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result property='password' column='password'
+			javaType="java.lang.String" jdbcType="VARCHAR" />
+
+	</resultMap>
+
+	<!-- Instead of referencing Fully Qualified Class Names we can register 
+		Aliases in mybatis-config.xml and use Alias names. -->
+	<resultMap type='Employee' id='viewEmpres'>
+		<id property='e_id' column='eid' />
+		<result property='fname' column='fname' />
+		<result property='lname' column='lname' />
+		<result property='age' column='age' />
+		<result property='salary' column='salary' />
+		<result property='dept' column='dept' />
+		<result property='state' column='state' />
+		<result property='city' column='city' />
+		<result property='address' column='address' />
+		<collection property="skills" column="skills"
+			javaType="java.util.ArrayList" ofType="java.lang.String"
+			resultMap="skillres">
+		</collection>
+	</resultMap>
+	<resultMap type='String' id='skillres'>
+
+		<result property='skills' column='skills' />
+
+	</resultMap>
+
+	<select id='viewEmpr' resultMap='viewEmpres'>
+		SELECT * FROM
+		EMPLOYEE ,
+		EMPLOYEE_SKILLS
+		where EID =
+		EMPLOYEE_E_ID
+		ORDER BY
+		DEPT
+	</select>
+
+	<insert id='addEmp1' parameterType='Employee'>
+
+		INSERT INTO
+		employee(fname,lname,age,salary,dept,state,city,address)
+		VALUES
+		(#{fname},#{lname},#{age},#{salary},#{dept},#{state},#{city},#{address});
+
+	</insert>
+	<insert id='addskills' parameterType='Employee'>
+
+		INSERT INTO EMPLOYEE_SKILLS
+		( EMPLOYEE_E_ID,SKILLS )
+		VALUES
+
+		<foreach collection="skills" item="item" separator=",">
+			((SELECT
+			MAX(eid)from employee) ,#{item})
+		</foreach>
+
+	</insert>
+
+	<update id='modEmp1' parameterType='Employee'>
+
+		UPDATE EMPLOYEE
+		SET
+		EMPLOYEE.ADDRESS=#{address} ,
+		EMPLOYEE.AGE=#{age} ,
+		EMPLOYEE.CITY=#{city} ,
+		EMPLOYEE.DEPT=#{dept} ,
+		EMPLOYEE.FNAME=#{fname}
+		,
+		EMPLOYEE.LNAME=#{lname} ,
+		EMPLOYEE.SALARY=#{salary} ,
+		EMPLOYEE.STATE=#{state}
+		WHERE
+		EID=#{e_id}
+
+	</update>
+
+	<insert id='modEmps' parameterType='Employee'>
+
+		INSERT INTO EMPLOYEE_SKILLS
+		VALUES
+		<foreach collection="skills" item="item" separator=",">
+			(#{e_id},#{item})
+		</foreach>
+	</insert>
+	<delete id='deleteEmpr' parameterType='int'>
+		DELETE FROM
+		EMPLOYEE WHERE
+		EID = #{e_id}
+	</delete>
+	<delete id='deleteEmps' parameterType='int'>
+		DELETE FROM
+		EMPLOYEE_SKILLS WHERE EMPLOYEE_E_ID = #{e_id}
+	</delete>
+	<select id="findEmp" resultMap='findEmpres' parameterType='int'>
+
+		SELECT *
+		FROM EMPLOYEE
+		INNER JOIN EMPLOYEE_SKILLS
+		ON
+		EMPLOYEE.EID=EMPLOYEE_SKILLS.EMPLOYEE_E_ID
+		WHERE EMPLOYEE.EID=#{e_id}
+	</select>
+	<resultMap type='Employee' id='findEmpres'>
+		<id property='e_id' column='eid' />
+		<result property='fname' column='fname' />
+		<result property='lname' column='lname' />
+		<result property='age' column='age' />
+		<result property='salary' column='salary' />
+		<result property='dept' column='dept' />
+		<result property='state' column='state' />
+		<result property='city' column='city' />
+
+		<result property='address' column='address' />
+		<collection property="skills" column="skills"
+			javaType="java.util.ArrayList" ofType="String" resultMap="skillres" />
+
+	</resultMap>
+
+
+
+	<select id='barchart' resultMap='barchartres'>
+		SELECT salary,dept
+		from employee
+
+	</select>
+
+	<resultMap type='Employee' id='barchartres'>
+		<result property='salary' column='salary' />
+		<result property='dept' column='dept' />
+	</resultMap>
+
+	<select id='linechart' resultMap='barchartres'>
+		SELECT age,salary
+		from employee
+
+	</select>
+
+	<resultMap type='Employee' id='linechartres'>
+		<result property='salary' column='salary' />
+		<result property='dept' column='dept' />
+	</resultMap>
+
+
+	<select id='piechart' resultMap='piechartres'>
+		SELECT city, COUNT(*) as
+		city_count
+		FROM employee
+		GROUP BY city;
+
+	</select>
+
+	<resultMap type='Employee' id='piechartres'>
+		<result property='city' column='city' />
+		<result property='city_count' column='city_count' />
+	</resultMap>
+
+
+
+
+	<select id='mixchart' resultMap='mixchartres'>
+		SELECT dept, COUNT(*) as
+		dept_count
+		FROM employee
+		GROUP BY dept;
+
+	</select>
+
+	<resultMap type='Employee' id='mixchartres'>
+		<result property='dept' column='dept' />
+		<result property='dept_count' column='dept_count' />
+	</resultMap>
+
+
+	<select id='mixchart1' resultMap='mixchartres1'>
+		SELECT distinct city, dept, COUNT(*) as dc_count
+		FROM employee
+		GROUP BY dept,city
+		order by city DESC
+
+	</select>
+
+	<resultMap type='Employee' id='mixchartres1'>
+		<result property='city' column='city' />
+		<result property='dept' column='dept' />
+		<result property='dc_count' column='dc_count' />
+
+	</resultMap>
+
+
+
+
+
+
+
+
+
+
+
+
+
+</mapper>

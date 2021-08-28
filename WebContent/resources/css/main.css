@@ -1,0 +1,126 @@
+@charset "ISO-8859-1";
+
+@import url(https://fonts.googleapis.com/css?family=Raleway:300,400,600);
+
+
+body{
+    margin: 0;
+    font-size: .9rem;
+    font-weight: 400;
+    line-height: 1.6;
+    color: #212529;
+    text-align: left;
+   ;
+}
+
+.navbar-laravel
+{
+    box-shadow: 0 2px 4px rgba(0,0,0,.04);
+}
+
+.navbar-brand , .nav-link, .my-form, .login-form
+{
+    font-family: Raleway, sans-serif;
+}
+
+.my-form
+{
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+}
+
+.my-form .row
+{
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.login-form
+{
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+}
+
+.login-form .row
+{
+    margin-left: 0;
+    margin-right: 0;
+}
+
+
+.table {
+    border-radius: 12px;
+}
+
+.table thead tr{
+    background-color:lavender;
+    border: 2px solid #ddd;
+}
+
+.table thead tr th{
+    border: 2px solid #ddd;
+}
+
+
+.table {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+    font-size: 14px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+.table tr td{
+     border: 2px solid #ddd;
+     padding:5px
+}
+
+.container {
+  width: 100%;
+  padding-right: 1px;
+  padding-left: 1px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.table td {
+  align:"centre";
+}
+
+
+i {
+  margin-right: 10px;
+}
+
+
+.table th, .table td {
+    padding: 6px;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
+}
+
+
+
+.invalid{
+color:red;
+
+}
+
+
+
+body {
+background-color: #e9ecef;
+}
+
+
+
+.footer {
+   position: fixed;
+   left: 0;
+   bottom: 0;
+   width: 100%;
+   background-color: red;
+   color: white;
+   text-align: center;
+}
